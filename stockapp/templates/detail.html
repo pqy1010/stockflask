@@ -1,0 +1,34 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <title>Title</title>#}
+{#    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#    <!--图标样式-->#}
+{#        <!-- 引入bootstrap -->#}
+{#    <link rel="stylesheet" href="../static/css/bootstrap.min.css" >#}
+{#    <script src="../static/js/jquery-1.11.3.min.js"></script>#}
+{#    <script src="../static/js/bootstrap.min.js"></script>#}
+{#</head>#}
+{% extends 'bootstrap/base.html' %}
+{% block title %} cwzy-detail {% endblock %}
+{% block body %}
+    <!-- 页头-->
+    <div class="page-header bg-primary" style="margin:0; padding-top: 2px; padding-bottom: 2px;">
+        <h5 style="text-align: center">欢迎登陆后台管理系统</h5>
+    </div>
+<div class="container-fluid" >
+        <div class="row" id="mainContent" style="margin-top: 16px; height: 100vh">
+            <div class="col-lg-2" style="height: 100%">
+                <!-- 左侧导航栏-->
+                <iframe style="width:100%; height:100%;" scrolling="auto" frameborder="0" src="navigator">
+                </iframe>
+            </div>
+            <div class="col-lg-10" style="height: 100%">
+                <!-- 右侧实体类容-->
+                <iframe id="info" name="info" style="width: 100%;height: 100%;" src="stockdetail">
+                </iframe>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
