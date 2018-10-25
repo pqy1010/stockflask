@@ -24,6 +24,23 @@ class User(db.Model,UserMixin):
     def __repr__(self):
         return '<User %r'%self.username
 
+class StockState(db.Model):
+    __tablename__='stockstatus'
+    ID=db.Column(db.Integer,primary_key=True)
+    name=db.Column(db.Text)
+    code=db.Column(db.Text)
+    ctime=db.Column(db.Text)
+    b_time=db.Column(db.Text)
+    b_price= db.Column(db.Float)
+    b_money=db.Column(db.Float)
+    b_count=db.Column(db.Integer)
+    owntime=db.Column(db.Float)
+    state=db.Column(db.Text)
+    earn=db.Column(db.Float)
+    earnrate=db.Column(db.Float)
+    s_price =db.Column(db.Float)
+    s_time=db.Column(db.Text)
+
 @login_manager.user_loader
 def load_user(username):
     return User.query.get(username)
