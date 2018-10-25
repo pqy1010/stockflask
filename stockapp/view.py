@@ -58,7 +58,7 @@ def logout():
 @login_required
 def searchstock(status='wait buy'):
     page = request.args.get('page', 1, type=int)
-    pagination = StockState.query.filter_by(StockState.state==status).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+    pagination = StockState.query.filter_by(state=status).paginate(page, per_page=8,error_out=False)
     stocklist=pagination.items
     data={}
     data['stocklist']=stocklist
