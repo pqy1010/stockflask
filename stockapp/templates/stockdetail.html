@@ -1,8 +1,46 @@
+{% import "_macros.html" as macros %}
 {% extends 'bootstrap/base.html' %}
+{% macro pagination_widget(pagination, endpoint) %}
 {% block title %} stockdetal {% endblock %}
 {% block body %}
 
 this is stockdetail
+    <div class="container-fluid">
+        {% if 'stocklist' in data %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>股票名称</th>
+                    <th>股票代码</th>
 
+                </tr>
+		    </thead>
+            {% for stock in data['stocklist'] %}
+            <tbody>
+                <tr>
+                    <td>{{ stock['name'] }}</td>
+                    <td>{{ stock['code'] }}</td>
+                </tr>
+            </tbody>
+
+            {% endfor %}
+
+        </table>
+
+        {% endif %}
+
+
+
+
+
+
+        <div class="row">
+            <div class="pagination">
+                {{ macros.pagination_widget(pagination, '.searchstock') }}
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}

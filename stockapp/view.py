@@ -1,10 +1,10 @@
-from flask import  flash,Blueprint,render_template,session,redirect,url_for
+from flask import  flash,Blueprint,render_template,session,redirect,url_for,request,current_app,g
 from .stockforms import LoginForm
 from flask_login import login_required
-from flask_login import login_user
-from .models import User
+from flask_login import login_user,logout_user
+from .models import User,StockState
 view=Blueprint('view',__name__)
-
+import sqlite3
 
 
 @view.route('/',methods=['GET','POST'])
@@ -39,7 +39,27 @@ def navigator():
     return render_template('navigator.html')
 
 
-@view.route('/stockdetail',methods=['GET','POST'])
+# @view.route('/stockdetail',methods=['GET','POST'])
 @login_required
 def stockdetail():
     return render_template('stockdetail.html')
+
+@view.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('view.index'))
+
+
+
+@view.route('/stockdetail',methods=['GET','POST'])
+@view.route('/searchstock/(status)')
+@login_required
+def searchstock(status='wait buy'):
+    page = request.args.get('page', 1, type=int)
+    pagination = StockState.query.filter_by(state=status).paginate(page, per_page=8,error_out=False)
+    stocklist=pagination.items
+    data={}
+    data['stocklist']=stocklist
+    return render_template('stockdetail.html',data=data,pagination=pagination)
