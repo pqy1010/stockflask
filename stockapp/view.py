@@ -58,8 +58,9 @@ def logout():
 @login_required
 def searchstock(status='wait buy'):
     page = request.args.get('page', 1, type=int)
-    pagination = StockState.query.filter_by(state=status).paginate(page, per_page=8,error_out=False)
+    pagination = StockState.query.filter_by().paginate(page, per_page=8,error_out=False)
     stocklist=pagination.items
     data={}
     data['stocklist']=stocklist
+    data['displaylist'] = ['name', 'code', 'ctime', 'b_time', 'b_price', 'b_money', 'b_count', 'owntime', 'state', 'earn','earnrate', 's_price','s_time']
     return render_template('stockdetail.html',data=data,pagination=pagination)
