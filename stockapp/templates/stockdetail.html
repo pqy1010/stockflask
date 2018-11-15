@@ -2,23 +2,82 @@
 {% extends 'bootstrap/base.html' %}
 {% block title %} stockdetal {% endblock %}
 {% block body %}
-
-this is stockdetail
     <div class="container-fluid">
         {% if 'stocklist' in data %}
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>股票名称</th>
                     <th>股票代码</th>
+                    <th>创建时间</th>
+                    <th>购买时间</th>
+                    <th>购买价格</th>
+                    <th>购买金额</th>
+                    <th>购买数量</th>
+                    <th>持有时间</th>
+                    <th>持有状态</th>
+                    <th>盈利金额</th>
+                    <th>盈利率</th>
+                    <th>卖出价格</th>
+                    <th>卖出时间</th>
+                    <th>操作</th>
 
                 </tr>
 		    </thead>
             {% for stock in data['stocklist'] %}
             <tbody>
                 <tr>
+
+                    {% for name in data['displaylist'] %}
+                        {% if stock[name]==None %}
+                            <td>-</td>
+                        {% else %}
+                            <td>{{ stock[name] }}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if stock['state']=='wait buy' %}
+                        <td><a href=""><button type="button" class="btn btn-primary">买入</button></a> </td>
+                    {% elif stock['state']=='own' %}
+                        <td><a href=""><button type="button" class="btn btn-success">卖出</button></a> </td>
+                    {% elif stock['state']=='wait sell' %}
+                        <td><a href=""><button type="button" class="btn btn-success">撤回</button></a> </td>
+                    {% endif %}
+
+
+
+
+               {#     {% if stock['name']=='None' %}
+                    <td>-</td>
+                    {% else %}
                     <td>{{ stock['name'] }}</td>
+                    {% endif %}
                     <td>{{ stock['code'] }}</td>
+                    <td>{{ stock['ctime'] }}</td>
+                    <td>{{ stock['b_time'] }}</td>
+                    <td>{{ stock['b_price'] }}</td>
+                    <td>{{ stock['b_money'] }}</td>
+                    <td>{{ stock['b_count'] }}</td>
+                    <td>{{ stock['owntime'] }}</td>
+                    <td>{{ stock['state'] }}</td>
+                    <td>{{ stock['earn'] }}</td>
+                    <td>{{ stock['earnrate'] }}</td>
+                    <td>{{ stock['s_price'] }}</td>
+
+                    {% if stock['s_price']==None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ stock['s_price'] }}</td>
+                    {% endif %}
+
+
+                    {% if stock['s_time']==None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ stock['s_time'] }}</td>
+                    {% endif %}#}
+
+
                 </tr>
             </tbody>
 
