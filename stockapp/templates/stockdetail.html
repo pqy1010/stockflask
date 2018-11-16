@@ -37,11 +37,15 @@
                     {% endfor %}
 
                     {% if stock['state']=='wait buy' %}
-                        <td><a href=""><button type="button" class="btn btn-primary">买入</button></a> </td>
+                        <td><a href=""><button type="button" class="btn btn-primary" >买入</button></a>
+                            <a href=""><button type="button" class="btn btn-primary">忽略</button></a>
+                        </td>
                     {% elif stock['state']=='own' %}
-                        <td><a href=""><button type="button" class="btn btn-success">卖出</button></a> </td>
+                        <td><a href=""><button type="button" class="btn btn-success">卖出</button></a>
+                        </td>
                     {% elif stock['state']=='wait sell' %}
-                        <td><a href=""><button type="button" class="btn btn-success">撤回</button></a> </td>
+                        <td><a href=""><button type="button" class="btn btn-success">撤回</button></a>
+                        </td>
                     {% endif %}
 
 
@@ -94,7 +98,7 @@
 
         <div class="row">
             <div class="pagination">
-                {{ macros.pagination_widget(pagination, '.searchstock') }}
+                {{ macros.pagination_widget(pagination, '.searchstock',data['cmd']) }}
             </div>
 
         </div>
