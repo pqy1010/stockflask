@@ -1,8 +1,8 @@
-{% macro pagination_widget(pagination,viewurl) %}
+{% macro pagination_widget(pagination,viewurl,cmdk) %}
     <ul class="pagination">
             <li {% if not pagination.has_prev %} class="disabled"{% endif %}>
                 <a href="{% if pagination.has_prev %}
-                            {{ url_for(viewurl, page = pagination.page - 1) }}
+                            {{ url_for(viewurl, page = pagination.page - 1,cmd=cmdk) }}
                             {% else %}#
                             {% endif %}"> &laquo;</a>
             </li>
@@ -10,11 +10,11 @@
                         {% if p %}
                                 {% if p == pagination.page %}
                                     <li class="active">
-                                        <a href="{{ url_for(viewurl, page = p) }}">{{ p }}</a>
+                                        <a href="{{ url_for(viewurl, page = p,cmd=cmdk) }}">{{ p }}</a>
                                     </li>
                                 {% else %}
                                     <li>
-                                        <a href="{{ url_for(viewurl, page = p) }}">{{ p }}</a>
+                                        <a href="{{ url_for(viewurl, page = p,cmd=cmdk) }}">{{ p }}</a>
                                     </li>
                                 {% endif %}
                         {% else %}
@@ -23,7 +23,7 @@
                 {% endfor %}
             <li {% if not pagination.has_next %} class="disabled"{% endif %}>
                 <a href="{% if pagination.has_next %}
-                            {{ url_for(viewurl,page = pagination.page + 1) }}
+                            {{ url_for(viewurl,page = pagination.page + 1,cmd=cmdk) }}
                             {% else %}#
                             {% endif %}">&raquo; </a>
             </li>

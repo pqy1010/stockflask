@@ -58,19 +58,19 @@ $(function(){
               <span class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i>股票信息</span>
                 <ul>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href='stockdetail' target="info" style="text-decoration: none;">全部股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href= "{{ url_for('view.searchstock',cmd=1,page=1) }}" target="info" style="text-decoration: none;">全部股票</a></span>
                     </li>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href='searchwaitbuystock' target="info" style="text-decoration: none;">待买股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=2,page=1) }}" target="info" style="text-decoration: none;">待买股票</a></span>
                     </li>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href='searchownstock' target="info" style="text-decoration: none;">持有股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=3,page=1) }}" target="info" style="text-decoration: none;">持有股票</a></span>
                     </li>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href='searchwaitsellstock' target="info" style="text-decoration: none;">待卖股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=4,page=1) }}" target="info" style="text-decoration: none;">待卖股票</a></span>
                     </li>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href='searchsellstock' target="info" style="text-decoration: none;">已卖股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=5,page=1) }}" target="info" style="text-decoration: none;">已卖股票</a></span>
                     </li>
                 </ul>
             </li>

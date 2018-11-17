@@ -54,13 +54,29 @@ def logout():
 
 
 @view.route('/stockdetail',methods=['GET','POST'])
-@view.route('/searchstock/(status)')
+@view.route('/searchstock')
 @login_required
-def searchstock(status='wait buy'):
-    page = request.args.get('page', 1, type=int)
-    pagination = StockState.query.filter_by().paginate(page, per_page=8,error_out=False)
+def searchstock():
+    reqval=request.values.to_dict()
+    if 'page' not in reqval:
+        reqval['page']=1
+    if 'cmd' not in reqval:
+        reqval['cmd']=1
+
+    if int(reqval['cmd'])==1:
+        pagination = StockState.query.filter_by().paginate(int(reqval['page']), per_page=8,error_out=False)
+    elif int(reqval['cmd'])==2:
+        pagination = StockState.query.filter_by(state='wait buy').paginate(int(reqval['page']), per_page=8, error_out=False)
+    elif int(reqval['cmd'])==3:
+        pagination = StockState.query.filter_by(state='own').paginate(int(reqval['page']), per_page=8, error_out=False)
+    elif int(reqval['cmd']) == 4:
+        pagination = StockState.query.filter_by(state='wait sell').paginate(int(reqval['page']), per_page=8, error_out=False)
+    elif int(reqval['cmd']) == 5:
+        pagination = StockState.query.filter_by(state='sell').paginate(int(reqval['page']), per_page=8, error_out=False)
+
     stocklist=pagination.items
     data={}
     data['stocklist']=stocklist
     data['displaylist'] = ['name', 'code', 'ctime', 'b_time', 'b_price', 'b_money', 'b_count', 'owntime', 'state', 'earn','earnrate', 's_price','s_time']
+    data['cmd']=reqval['cmd']
     return render_template('stockdetail.html',data=data,pagination=pagination)
