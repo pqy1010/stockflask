@@ -29,23 +29,34 @@
                 <tr>
 
                     {% for name in data['displaylist'] %}
-                        {% if stock[name]==None %}
-                            <td>-</td>
+                        {% if name=='state' %}
+                            <td><span class="label label-danger">{{ stock[name] }}</span></td>
                         {% else %}
-                            <td>{{ stock[name] }}</td>
+                            {% if stock[name]==None %}
+                                <td>-</td>
+                            {% else %}
+                                <td>{{ stock[name] }}</td>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
 
                     {% if stock['state']=='wait buy' %}
-                        <td><a href=""><button type="button" class="btn btn-primary" >买入</button></a>
-                            <a href=""><button type="button" class="btn btn-primary">忽略</button></a>
+                        <td><a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=11) }}"><button type="button" class="btn btn-primary" >买入</button></a>
+                            <a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=12) }}"><button type="button" class="btn btn-primary">忽略</button></a>
+                        </td>
+                    {% elif stock['state']=='buying' %}
+                        <td><a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=13) }}"><button type="button" class="btn btn-success">不买</button></a>
                         </td>
                     {% elif stock['state']=='own' %}
-                        <td><a href=""><button type="button" class="btn btn-success">卖出</button></a>
+                        <td><a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=14) }}"><button type="button" class="btn btn-success">卖出</button></a>
                         </td>
-                    {% elif stock['state']=='wait sell' %}
-                        <td><a href=""><button type="button" class="btn btn-success">撤回</button></a>
+                    {% elif stock['state']=='selling' %}
+                        <td><a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=15) }}"><button type="button" class="btn btn-success">不卖</button></a>
                         </td>
+                    {% elif stock['state']=='sold' %}
+                        <td>-</td>
+                    {% elif stock['state']=='ignore' %}
+                        <td><a href="{{ url_for('view.updatestockstate',stockID=stock['ID'],cmd=data['cmd'],page=data['page'],upstate=16) }}"><button type="button" class="btn btn-success">撤回</button></a></td>
                     {% endif %}
 
 
