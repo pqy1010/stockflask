@@ -31,6 +31,8 @@
                     {% for name in data['displaylist'] %}
                         {% if name=='state' %}
                             <td><span class="label label-danger">{{ stock[name] }}</span></td>
+                        {% elif name=='name' %}
+                            <td><a href="{{ url_for('view.stockplot',stockcode=stock['code'])}}" target="_blank">{{ stock[name] }}</a></td>
                         {% else %}
                             {% if stock[name]==None %}
                                 <td>-</td>

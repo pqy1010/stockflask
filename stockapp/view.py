@@ -8,6 +8,12 @@ view=Blueprint('view',__name__)
 import sqlite3
 
 
+import plotly.offline as offline
+import plotly.graph_objs as go
+from datetime import datetime
+import tushare as ts
+import pandas as pd
+
 @view.route('/',methods=['GET','POST'])
 def index():
     form=LoginForm()
@@ -112,3 +118,18 @@ def updatestockstate():
     db.session.commit()
 
     return redirect(url_for('view.searchstock',cmd=reqval['cmd'],page=reqval['page']))
+
+@view.route('/stockplot')
+@login_required
+def stockplot():
+    reqval=request.values.to_dict()
+    if 'stockcode' in reqval:
+        dayK = ts.get_k_data(reqval['stockcode'])
+
+        trace=go.Candlestick(x=dayK.date,open=dayK.open,high=dayK.high,low=dayK.low,close=dayK.close)
+        data=[trace]
+        # fig=go.Figure(data=data)
+        figurl = offline.plot(data, include_plotlyjs=False, output_type='div')
+        data={}
+        data['figstr']='''<div></div>'''
+        return render_template('stockplotfig.html',data=data)
