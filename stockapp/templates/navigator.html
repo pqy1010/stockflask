@@ -64,13 +64,19 @@ $(function(){
                       <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=2,page=1) }}" target="info" style="text-decoration: none;">待买股票</a></span>
                     </li>
                     <li>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=6,page=1) }}" target="info" style="text-decoration: none;">正在买入</a></span>
+                    </li>
+                    <li>
                       <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=3,page=1) }}" target="info" style="text-decoration: none;">持有股票</a></span>
                     </li>
                     <li>
-                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=4,page=1) }}" target="info" style="text-decoration: none;">待卖股票</a></span>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=4,page=1) }}" target="info" style="text-decoration: none;">正在卖出</a></span>
                     </li>
                     <li>
                       <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=5,page=1) }}" target="info" style="text-decoration: none;">已卖股票</a></span>
+                    </li>
+                    <li>
+                      <span class="btn btn-sm btn-warning"><i class="icon-time"></i><a href="{{ url_for('view.searchstock',cmd=7,page=1) }}" target="info" style="text-decoration: none;">忽略股票</a></span>
                     </li>
                 </ul>
             </li>
