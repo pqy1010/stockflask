@@ -127,9 +127,9 @@ def stockplot():
         dayK = ts.get_k_data(reqval['stockcode'])
 
         trace=go.Candlestick(x=dayK.date,open=dayK.open,high=dayK.high,low=dayK.low,close=dayK.close)
-        data=[trace]
-        # fig=go.Figure(data=data)
-        figurl = offline.plot(data, include_plotlyjs=False, output_type='div')
+        pltdata=[trace]
+        fig=go.Figure(data=pltdata)
+        figurl = offline.plot(fig, include_plotlyjs=False, output_type='div')
         data={}
-        data['figstr']='''<div></div>'''
+        data['figstr']=figurl
         return render_template('stockplotfig.html',data=data)
