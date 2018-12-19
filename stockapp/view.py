@@ -26,7 +26,7 @@ def index():
 @view.route('/detail')
 @login_required
 def detail():
-    return render_template('detail.html')
+    return render_template('detail.html',name=session.get('uname'))
 
 @view.route('/login',methods=['GET','POST'])
 def login():
@@ -35,6 +35,7 @@ def login():
         user=User.query.filter_by(username=form.name.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
+            session['uname']=form.name.data
             return redirect(url_for('view.detail'))
         flash('Invalid username or password.')
     return render_template('index.html',form=form,name=session.get('name'))
@@ -127,9 +128,20 @@ def stockplot():
         dayK = ts.get_k_data(reqval['stockcode'])
 
         trace=go.Candlestick(x=dayK.date,open=dayK.open,high=dayK.high,low=dayK.low,close=dayK.close)
-        pltdata=[trace]
-        fig=go.Figure(data=pltdata)
+
+        layout = go.Layout(
+            xaxis=dict(
+                rangeslider=dict(
+                    visible=False
+                )
+            )
+        )
+
+        data = [trace]
+
+        fig = go.Figure(data=data, layout=layout)
+
         figurl = offline.plot(fig, include_plotlyjs=False, output_type='div')
-        data={}
-        data['figstr']=figurl
-        return render_template('stockplotfig.html',data=data)
+        resdata={}
+        resdata['figstr']=figurl
+        return render_template('stockplotfig.html',data=resdata)
