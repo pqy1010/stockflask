@@ -6,13 +6,14 @@ from .models import User,StockState
 from . import db
 view=Blueprint('view',__name__)
 import sqlite3
-
+import pickle
 
 import plotly.offline as offline
 import plotly.graph_objs as go
 from datetime import datetime
 import tushare as ts
 import pandas as pd
+import os
 
 @view.route('/',methods=['GET','POST'])
 def index():
@@ -125,10 +126,18 @@ def updatestockstate():
 def stockplot():
     reqval=request.values.to_dict()
     if 'stockcode' in reqval:
-        dayK = ts.get_k_data(reqval['stockcode'])
+        filename='../stock/savedata/'+reqval['stockcode']+'.pkl'
+        if not os.path.exists(filename):
+            return render_template('stockplotfig.html')
 
-        trace=go.Candlestick(x=dayK.date,open=dayK.open,high=dayK.high,low=dayK.low,close=dayK.close)
+        with open(filename, 'rb') as f:
+            stockinfo = pickle.load(f)
+        dayK=stockinfo['data']
 
+        displaylen=min(120,len(dayK.open))
+        trace=go.Candlestick(x=dayK.date[0:displaylen],open=dayK.open[0:displaylen],high=dayK.high[0:displaylen],low=dayK.low[0:displaylen],close=dayK.close[0:displaylen],name='日均线')
+        trace2=go.Scatter(x=dayK.date,y=stockinfo['zhicheng'][0:displaylen],mode='lines',name='支撑线')
+        trace3=go.Scatter(x=dayK.date,y=stockinfo['zuli'][0:displaylen],mode='lines',name='阻力线')
         layout = go.Layout(
             xaxis=dict(
                 rangeslider=dict(
@@ -137,11 +146,20 @@ def stockplot():
             )
         )
 
-        data = [trace]
+        data = [trace,trace2,trace3]
 
         fig = go.Figure(data=data, layout=layout)
 
+
+
+        trace4=go.Scatter(x=dayK.date,y=stockinfo['x1'][0:displaylen],mode='lines',name='x1')
+        trace5 = go.Scatter(x=dayK.date, y=stockinfo['x2'][0:displaylen], mode='lines', name='x2')
+        data2=[trace4,trace5]
+
+
+
         figurl = offline.plot(fig, include_plotlyjs=False, output_type='div')
+        figurl2 = offline.plot(data2, include_plotlyjs=False, output_type='div')
         resdata={}
-        resdata['figstr']=figurl
+        resdata['figstr']=figurl+figurl2
         return render_template('stockplotfig.html',data=resdata)
